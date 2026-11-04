@@ -98,3 +98,21 @@ python -m compileall app.py modules tests
 ## 注意事项
 
 真实热榜测试需要本机完成官方 CLI 安装并配置有效 Access Secret；AI Works 部署还需要平台运行环境和 Secret 配置权限。
+## Streamlit Community Cloud 实时热榜
+
+部署入口选个人部署仓库的 `main` 分支和根目录 `app.py`。
+在应用设置的 Secrets 中配置以下根级键，使用实际值替换占位符：
+
+```toml
+ZHIHU_ACCESS_SECRET = "知乎开放平台 Access Secret"
+HOTSPOT_OPERATOR_PASSWORD = "独立的管理员口令"
+HOTSPOT_MAX_LIVE_REQUESTS = 1
+```
+
+在站点切换到实时数据模式，输入管理员口令解锁。先检查 CLI 安装状态，
+缺少时点击安装，再勾选确认并手动获取一次热榜。采集成功后，浏览器会话
+共享本次结果，筛选与搜索会使用缓存。调用次数和缓存按服务器进程计算，
+应用重启后会重新计数，必要时需重新安装 CLI。
+
+如果安装失败，先查看页面上的安装提示和云端日志。如果热榜请求失败，
+查看管理员提示和退出码。若提示解析失败，可下载本次 CLI 响应做离线排查。
